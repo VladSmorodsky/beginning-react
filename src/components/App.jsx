@@ -21,17 +21,45 @@ function App() {
     },
   ]);
 
+  const [todoInputName, setTodoInputName] = useState('');
+  const [idForTodo, setIdForTodo] = useState(4)
 
+  const addTodo = (event) => {
+    event.preventDefault();
+
+    if (todoInputName.trim().length === 0) {
+      return;
+    }
+
+    setTodos([...todos, {
+      id: idForTodo,
+      title: todoInputName,
+      isComplete: false
+    }])
+
+    setTodoInputName('');
+    setIdForTodo((prevState) => prevState + 1)
+  }
+
+  const handleInput = (event) => {
+    setTodoInputName(event.target.value);
+  }
+
+  const deleteTodo = (id) => {
+    setTodos([...todos.filter((todo) => todo.id !== id)])
+  }
 
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="src/components/App#App.jsx">
+        <form action="#" onSubmit={addTodo}>
           <input
             type="text"
             className="todo-input"
             placeholder="What do you need to do?"
+            value={todoInputName}
+            onChange={handleInput}
           />
         </form>
 
@@ -50,6 +78,7 @@ function App() {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
+                    onClick={() => deleteTodo(todo.id)}
                   >
                     <path
                       strokeLinecap="round"
