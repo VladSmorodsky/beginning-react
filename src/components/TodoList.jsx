@@ -1,8 +1,18 @@
+import TodoItemsRemaining from "./TodoItemsRemaining";
+import TodoListFilters from "./TodoListFilters";
+import {useState} from "react";
+
 export default function TodoList(props) {
+  const [filter, setFilter] = useState('all');
+
+  const filterBy = (filterOption = 'all') => {
+    setFilter(filterOption);
+  }
+
   return (
     <>
       <ul className="todo-list">
-        {props.todos.map((todo) => (
+        {props.todosFiltered(filter).map((todo) => (
           (
             <li className="todo-item-container" key={todo.id}>
               <div className="todo-item">
@@ -51,22 +61,19 @@ export default function TodoList(props) {
 
       <div className="check-all-container">
         <div>
-          <div className="button">Check All</div>
+          <div className="button" onClick={props.completeAllTodos}>Check All</div>
         </div>
 
-        <span>3 items remaining</span>
+        <TodoItemsRemaining remainingItems={props.remainingItems}/>
       </div>
 
       <div className="other-buttons-container">
+        <TodoListFilters
+          filterBy={filterBy}
+          currentFilter={filter}
+        />
         <div>
-          <button className="button filter-button filter-button-active">
-            All
-          </button>
-          <button className="button filter-button">Active</button>
-          <button className="button filter-button">Completed</button>
-        </div>
-        <div>
-          <button className="button">Clear completed</button>
+          <button className="button" onClick={props.clearCompletedTodos}>Clear completed</button>
         </div>
       </div>
     </>

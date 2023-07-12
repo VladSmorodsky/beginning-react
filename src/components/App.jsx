@@ -108,6 +108,32 @@ function App() {
     }
   }
 
+  const remainingItems = () => todos.filter(todo => !todo.isComplete).length;
+
+  const clearCompletedTodos = () => {
+    setTodos([...todos].filter(todo => !todo.isComplete));
+  }
+
+  const completeAllTodos = () => {
+    const updatedTodos = todos.map(todo => {
+      todo.isComplete = true;
+
+      return todo;
+    });
+    setTodos(updatedTodos);
+  }
+
+  const todosFiltered = (filter) => {
+    switch (filter) {
+      case 'all':
+        return todos;
+      case 'completed':
+        return todos.filter(todo => todo.isComplete);
+      case 'active':
+        return todos.filter(todo => !todo.isComplete);
+    }
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -121,7 +147,10 @@ function App() {
                     handleStatus={handleStatus}
                     updateTodo={updateTodo}
                     deleteTodo={deleteTodo}
-
+                    remainingItems={remainingItems}
+                    clearCompletedTodos={clearCompletedTodos}
+                    completeAllTodos={completeAllTodos}
+                    todosFiltered={todosFiltered}
           />
         ) :
           <NoTodos />
