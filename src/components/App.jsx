@@ -5,30 +5,11 @@ import NoTodos from "./NoTodos";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import HooksExample from "./HooksExample";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: 'Finish React series',
-      isComplete: false,
-      isEditing: false
-    },
-    {
-      id: 2,
-      title: 'Go to Grocery',
-      isComplete: false,
-      isEditing: false
-    },
-    {
-      id: 3,
-      title: 'Do other thing',
-      isComplete: false,
-      isEditing: false
-    },
-  ]);
-
-  const [idForTodo, setIdForTodo] = useState(4)
+  const [todos, setTodos] = useLocalStorage('todos', []);
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1);
 
   const addTodo = (todoTitle) => {
     setTodos([...todos, {
@@ -111,7 +92,7 @@ function App() {
 
   const remainingItemsCount = () => {
     console.log('calculating remaining todos. This is slow.');
-    for (let index = 0; index < 2000000000; index++) {}
+    // for (let index = 0; index < 2000000000; index++) {}
     return todos.filter(todo => !todo.isComplete).length;
   }
 

@@ -1,7 +1,8 @@
 import {useState} from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function TodoForm(props) {
-  const [todoInputName, setTodoInputName] = useState('');
+  const [todoInputName, setTodoInputName] = useLocalStorage('todoInputName', '');
 
   const handleInput = (event) => {
     setTodoInputName(event.target.value);
