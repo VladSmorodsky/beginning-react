@@ -1,8 +1,22 @@
-import {useState} from "react";
+import {useContext} from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import {TodosContext} from "../context/TodosContext";
 
-export default function TodoForm(props) {
+export default function TodoForm() {
   const [todoInputName, setTodoInputName] = useLocalStorage('todoInputName', '');
+  const [idForTodo, setIdForTodo] = useLocalStorage('idForTodo', 1);
+  const {todos, setTodos} = useContext(TodosContext);
+
+  const addTodo = (todoTitle) => {
+    setTodos([...todos, {
+      id: idForTodo,
+      title: todoTitle,
+      isComplete: false,
+      isEditing: false
+    }])
+
+    setIdForTodo((prevState) => prevState + 1)
+  }
 
   const handleInput = (event) => {
     setTodoInputName(event.target.value);
@@ -15,7 +29,7 @@ export default function TodoForm(props) {
       return;
     }
 
-    props.addTodo(todoInputName);
+    addTodo(todoInputName);
 
     setTodoInputName('');
   }
