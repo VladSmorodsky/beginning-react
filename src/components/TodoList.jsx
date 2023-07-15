@@ -2,6 +2,7 @@ import TodoItemsRemaining from "./TodoItemsRemaining";
 import TodoListFilters from "./TodoListFilters";
 import {useContext} from "react";
 import {TodosContext} from "../context/TodosContext";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 export default function TodoList() {
   const {todos, setTodos, todosFiltered} = useContext(TodosContext);
@@ -89,53 +90,58 @@ export default function TodoList() {
 
   return (
     <>
-      <ul className="todo-list">
+      <TransitionGroup className="todo-list">
         {todosFiltered().map((todo) => (
           (
-            <li className="todo-item-container" key={todo.id}>
-              <div className="todo-item">
-                <input
-                  type="checkbox"
-                  checked={todo.isComplete}
-                  onChange={() => handleStatus(todo.id)}
-                />
-                {!todo.isEditing ? (
-                  <span
-                    className={`todo-item-label ${todo.isComplete ? 'line-through' : ''}`}
-                    onDoubleClick={() => handleEdit(todo.id)}
-                  >
+            <CSSTransition key={todo.id}
+                           timeout={300}
+                           classNames={'todo-item'}
+            >
+              <li className="todo-item-container" key={todo.id}>
+                <div className="todo-item">
+                  <input
+                    type="checkbox"
+                    checked={todo.isComplete}
+                    onChange={() => handleStatus(todo.id)}
+                  />
+                  {!todo.isEditing ? (
+                    <span
+                      className={`todo-item-label ${todo.isComplete ? 'line-through' : ''}`}
+                      onDoubleClick={() => handleEdit(todo.id)}
+                    >
                       {todo.title}
                     </span>
-                ) : (
-                  <input type="text"
-                         className="todo-item-input"
-                         onKeyDown={(event) => handleTodoUpdate(event, todo.id)}
-                         defaultValue={todo.title}
-                         onBlur={(event) => updateTodo(event, todo.id)}
-                         autoFocus
-                  />
-                )}
-              </div>
-              <button className="x-button">
-                <svg
-                  className="x-button-icon"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  onClick={() => deleteTodo(todo.id)}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </li>
+                  ) : (
+                    <input type="text"
+                           className="todo-item-input"
+                           onKeyDown={(event) => handleTodoUpdate(event, todo.id)}
+                           defaultValue={todo.title}
+                           onBlur={(event) => updateTodo(event, todo.id)}
+                           autoFocus
+                    />
+                  )}
+                </div>
+                <button className="x-button">
+                  <svg
+                    className="x-button-icon"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    onClick={() => deleteTodo(todo.id)}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </li>
+            </CSSTransition>
           )
         ))}
-      </ul>
+      </TransitionGroup>
 
       <div className="check-all-container">
         <div>
