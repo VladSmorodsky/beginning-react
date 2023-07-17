@@ -188,3 +188,27 @@ h2 {
   transform: translateY(20px);
   transition: all 300ms;
 }
+
+.container {
+  margin: auto;
+  padding-top: 24px;
+  max-width: 48rem;
+}
+
+.nav {
+  background-color: white;
+  padding: 16px;
+}
+
+.nav .nav-list {
+  display: flex;
+  justify-content: center;
+}
+
+.nav .nav-list li:not(:first-child){
+  margin-left: 16px;
+}
+
+.nav .nav-list li a.active {
+  font-weight: bold;
+}

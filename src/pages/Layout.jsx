@@ -3,11 +3,13 @@ import React from "react";
 
 export default function Layout(props) {
   return (
-    <div className="todo-app-container">
-      <NavigationBar />
-      <div className="content">
-        {props.children}
+    <>
+      <NavigationBar/>
+      <div className="todo-app-container">
+        <div className="container">
+          {props.children}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
