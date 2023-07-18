@@ -1,24 +1,10 @@
 import Layout from "./Layout";
-import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 
 export default function Blog() {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {data: posts, isLoading, error} = useFetch('https://www.reddit.com/r/aww.json');
 
-  useEffect(() => {
-    fetch('https://www.reddit.com/r/aww.json')
-      .then(response => response.json())
-      .then(result => {
-        setIsLoading(false);
-        setPosts(result.data.children);
-      })
-      .catch(error => {
-        setIsLoading(false);
-        setError(error);
-      });
-  }, []);
   return (
     <Layout>
 
@@ -33,7 +19,7 @@ export default function Blog() {
       {posts && (
         <div>
           <ul>
-            {posts.map(post => (
+            {posts.data.children.map(post => (
               <li key={post.data.id}>
                 <Link to={`/blog/${post.data.id}`}>{post.data.title}</Link>
               </li>
