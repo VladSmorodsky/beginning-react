@@ -4,12 +4,19 @@ import './index.css';
 import {RouterProvider} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import {route} from "./route";
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import {ReactQueryDevtools} from "react-query/devtools";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={route} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={route} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
